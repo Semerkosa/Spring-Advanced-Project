@@ -1,15 +1,22 @@
 package bg.softuni.project.web;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
-@Controller
-@RequestMapping("/")
-public class HomeController {
+@RestController
+public class HomeController extends BaseController{
 
-    @GetMapping
-    public String welcome() {
-        return "login";
+    @GetMapping("/")
+    @PreAuthorize("isAnonymous()")
+    public ModelAndView index() {
+        return super.view("index");
+    }
+
+    @GetMapping("/home")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView home() {
+        return super.view("home");
     }
 }
